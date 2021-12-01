@@ -1,0 +1,22 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: myapp01-deployment
+spec:
+  selector:
+    matchLabels:
+      app: myapp01-pod
+  template:
+    metadata:
+      labels:
+        app: myapp01-pod
+    spec:
+      containers:
+      - name: myapp01-container
+        image: acrskhor.azurecr.io/demo1:latest
+        resources:
+          limits:
+            memory: "128Mi"
+            cpu: "300m"
+        ports:
+        - containerPort: 5000
