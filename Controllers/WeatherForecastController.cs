@@ -15,6 +15,7 @@ namespace Demo1.Controllers
         {
             "Freezing", "Bracing", "Chilly", "Cool", "Mild", "Warm", "Balmy", "Hot", "Sweltering", "Scorching"
         };
+        private static string Password = "$$$";
 
         private readonly ILogger<WeatherForecastController> _logger;
 
