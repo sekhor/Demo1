@@ -44,3 +44,9 @@ jobs:
           resource-group: kub-rg
           # AKS Cluster Name
           cluster-name: aks_khor2
+          
+      - name: Apply AKS Deployment
+        run: kubectl apply -f deployment.yaml
+        
+      - name: Apply AKS Deployment
+        run: kubectl apply -f service.yaml
