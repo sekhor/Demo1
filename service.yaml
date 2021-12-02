@@ -6,6 +6,6 @@ spec:
   selector:
     app: actiondemo01-pod
   ports:
-  - port: 5000
+  - port: 80
     targetPort: 5000
   type: LoadBalancer
