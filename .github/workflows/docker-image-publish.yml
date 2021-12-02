@@ -11,7 +11,7 @@ jobs:
 
   build:
 
-    runs-on: self-hosted
+    runs-on: ubuntu-latest
 
     steps:
     - uses: actions/checkout@v2
@@ -29,3 +29,18 @@ jobs:
         login-server: acrskhor.azurecr.io
     - name: Push the Docker image
       run: docker push acrskhor.azurecr.io/actiondemo01:latest
+
+deploy:
+    runs-on: ubuntu-latest
+    needs: build_push_image # Will wait for the execution of the previous job
+    
+    steps:
+    - name: Azure Kubernetes set context
+      uses: Azure/aks-set-context@v1.1
+      with:
+        # Azure credentials i.e. output of `az ad sp create-for-rbac --sdk-auth`
+        creds: ${{ secrets.AKS_CREDS }}
+        # Resource Group Name
+        resource-group: kub-rg
+        # AKS Cluster Name
+        cluster-name: aks_khor2
