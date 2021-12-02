@@ -28,4 +28,4 @@ jobs:
         # Container registry server url
         login-server: acrskhor.azurecr.io
     - name: Push the Docker image
-      run: docker push inteltrainingacr02.azurecr.io/actiondemo01:latest
+      run: docker push acrskhor.azurecr.io/actiondemo01:latest
