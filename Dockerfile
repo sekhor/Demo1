@@ -10,9 +10,7 @@ RUN adduser -u 5678 --disabled-password --gecos "" appuser && chown -R appuser /
 USER appuser
 
 FROM mcr.microsoft.com/dotnet/sdk:5.0-focal AS build
-# Set proxy information so that we can pull certificates and apt packages
-ENV http_proxy=http://proxy-chain.intel.com:911
-ENV https_proxy=http://proxy-chain.intel.com:911
+
 WORKDIR /src
 COPY ["Demo1.csproj", "./"]
 RUN dotnet restore "Demo1.csproj"
