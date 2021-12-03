@@ -1,0 +1,52 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ .Values.app.name }}
+  labels:
+    app: {{ .Values.app.name }}
+    group: {{ .Values.app.name }}
+    # obs: appd
+spec:
+  replicas: {{ .Values.replicaCount }}
+  selector:
+    matchLabels:
+      app: {{ .Values.app.name }}
+  template:
+    metadata:
+      labels:
+        app: {{ .Values.app.name }}
+        group: {{ .Values.app.name }}
+        # obs: appd
+    spec:
+      # securityContext:
+      #   fsGroup: 2000
+      #   runAsNonRoot: true
+      #   runAsUser: 1000
+      imagePullSecrets:
+        - name: acr-auth
+      containers:
+        - name: {{ .Values.app.name }}
+          image: {{ .Values.image.repository }}:{{ .Values.image.tag }}
+          resources:
+            limits:
+              cpu: {{ .Values.resources.limits.cpu }}
+              memory: {{ .Values.resources.limits.memory }}
+            requests:
+              cpu: {{ .Values.resources.requests.cpu }}
+              memory: {{ .Values.resources.requests.memory }}
+          volumeMounts:
+          - name: log-volume
+            mountPath: /opt/apps/{{ .Values.app.name }}/logs
+          # - name: config-volume
+          #   mountPath: /script/start.sh
+          #   subPath: start.sh
+
+      volumes:
+      - name: log-volume
+        persistentVolumeClaim:
+          claimName: {{ .Values.pvc.name }}
+      # - name: config-volume
+      #   configMap:
+      #     name: {{ .Values.app.name }}-configmap
+      #     defaultMode: 0755 #Giving permissions to config map script
+      restartPolicy: Always
